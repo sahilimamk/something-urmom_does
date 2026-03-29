@@ -162,6 +162,8 @@ const ctx = canvas.getContext("2d");
     });
 
     window.addEventListener("keydown", (e) => {
+
+    gameKeys = ["arrowup", "arrowdown", "arrowleft", "arrowright","w", "a", "s", "d"]
     keys[e.key.toLowerCase()] = true;
 });
 
