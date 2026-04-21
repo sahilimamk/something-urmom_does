@@ -52,19 +52,6 @@ for (let y = 0; y < rows; y++) {
 
     const keys = {};
 
-    function createBullet(startX, startY, dirX, dirY, ownerID){
-        return{
-            width: 0.1,
-            height: 0.1,    
-            px: startX,
-            py: startY,
-            color : Theme.colors.bullet,
-            isbullet: true,
-            speedX: 1.5 * dirX,
-            speedY: 1.5 * dirY,
-            owner: ownerID
-        }
-    }
 
 
 //create a patch of soil or water in the map like a cricle 
