@@ -1,0 +1,125 @@
+   
+for (let y = 0; y < rows; y++) {
+        map[y] = [];
+        for (let x = 0; x < cols; x++) {
+            map[y][x] = GRASS;
+        }
+    }
+
+    const player = {
+        controls: { 
+            up: "w", 
+            down: "s", 
+            left: "a", 
+            right: "d",
+            shoot: " "},
+        width:1,
+        height: 1,
+        lastDirX: 1,
+        lastDirY:0, 
+        id: "player1",
+        px:2,
+        py:2,
+        speed: 0.1,
+        fireRate:30,
+        currentCdown: 0,
+        score: 0,
+        color: Theme.colors.player1
+    };
+        
+    const player2 = {
+        controls: { 
+            up: "arrowup", 
+            down: "arrowdown", 
+            left: "arrowleft", 
+            right: "arrowright", 
+            shoot: "enter"},
+        height:1,
+        width:1,
+        lastDirX: 0,
+        lastDirY:0, 
+        id: "player2",
+        px:5,
+        py:5,
+        speed: 0.1,
+        fireRate: 30,
+        currentCdown: 0,
+        score: 0,
+        color: Theme.colors.player2
+    };
+
+    const entities = [player, player2];
+
+    const keys = {};
+
+    function createBullet(startX, startY, dirX, dirY, ownerID){
+        return{
+            width: 0.1,
+            height: 0.1,    
+            px: startX,
+            py: startY,
+            color : Theme.colors.bullet,
+            isbullet: true,
+            speedX: 1.5 * dirX,
+            speedY: 1.5 * dirY,
+            owner: ownerID
+        }
+    }
+
+
+//create a patch of soil or water in the map like a cricle 
+    function createPatch(cx, cy, radius, type) {
+        for (let y = -radius; y <= radius; y++) {
+            for (let x = -radius; x <= radius; x++) {
+                let dx = cx + x;
+                let dy = cy + y;
+                if (dx >= 0 && dx    < cols && dy >= 0 && dy < rows) {
+                    if (x * x + y * y <= radius * radius) {
+                        map[dy][dx] = type;
+                    }
+                }
+            }
+        }
+    }
+
+    createPatch(10, 8, 4, WATER);  // Lake 1
+    createPatch(25, 5, 3, WATER);  // Lake 2
+    createPatch(5, 12, 3, SOIL);   // Soil Patch 1
+   
+    
+
+
+// renders the whole game
+    function gameloop(){
+        updatePlayer(player);
+        updatePlayer(player2);
+        updateBullets();
+        draw();
+        requestAnimationFrame(gameloop);
+    }
+
+    console.log(keys);
+
+//websocket connection to connect to server
+    const socket = new WebSocket("ws://localhost:3000");
+
+    socket.addEventListener('message',(e) => {
+        const state = JSON.parse(e.data.toString());
+
+        player.px = state.player1.px;
+        player.py = state.player1.py;
+        player2.px = state.player2.px;
+        player2.py = state.player2.py;
+
+    });
+    
+    window.onload = () => {
+        resize();
+        gameloop();
+        console.log("Initial draw complete");
+    };
+    
+    if (document.readyState === "complete") {
+        resize();
+    }
+    
