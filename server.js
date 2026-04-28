@@ -27,6 +27,14 @@ const activeKeys = {
 setInterval(() => {
     // Process continuous movement for both players
     ['player1', 'player2'].forEach(id => {
+        if(gameState[id].score >= 5){
+        wss.clients.forEach(client => {
+            client.send(JSON.stringify({
+                type: "GAME_OVER",
+                winner: id
+                }));
+            });
+        }
         const p = gameState[id];
         const target = id === "player1" ? gameState.player2 : gameState.player1;
         
@@ -40,6 +48,8 @@ setInterval(() => {
 
         if (dirX !== 0 || dirY !== 0) {
             applyMovement(p, dirX, dirY, target, null, null, null);
+            p.px = Math.max(0, Math.min(99, p.px));
+            p.py = Math.max(0, Math.min(99, p.py));
         }
     });
 
@@ -63,7 +73,7 @@ wss.on('connection', (ws) => {
     ws.on('message', (packet) => {
         try {
             const parsed = JSON.parse(packet.toString());
-            if(parsed.type === "INPUT" && (parsed.key === " " || parsed.key === "Enter") && parsed.state === true){
+            if(parsed.type === "INPUT" && (parsed.key === " " || parsed.key === "enter") && parsed.state === true){
                     console.log("SHOOT received", parsed);
 
                 gameState.bullets.push(createBullet(

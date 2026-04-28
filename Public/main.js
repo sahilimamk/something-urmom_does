@@ -88,10 +88,16 @@ function gameloop(){
 
 //websocket connection to connect to server
     const socket = new WebSocket("ws://localhost:3000");
+socket.addEventListener('message', (e) => {
+    const state = JSON.parse(e.data);
+    
+    if(state.type === "GAME_OVER"){
+        alert(state.winner + " wins!");
+        return;
+    }
+    
+    // rest of your existing code
 
-socket.addEventListener('message',(e) => {
-        const state = JSON.parse(e.data.toString());
-        
 console.log("state.bullets:", state.bullets);
 
         player1.px = state.player1.px;
@@ -119,4 +125,3 @@ for (const b of state.bullets) {
     if (document.readyState === "complete") {
         resize();
     }
-    

@@ -9,6 +9,9 @@ window.addEventListener("keydown", (e) => {
     const key = e.key.toLowerCase();
     keys[key] = true;
 
+// opens a dual server for it to connect to get data from 
+// player packet and close the connection when it is over
+8
     if (gameKeys.includes(key)) {
 
         //it checks whether the game controls are of player1 keys and 
@@ -60,7 +63,7 @@ window.addEventListener("keyup", (e) => {
             };
             e.preventDefault();
             socket.send(JSON.stringify(packet));
-wwwww
+
         } else if (Object.values(player2.controls).includes(key)) {
             const packet = {
                 type: "INPUT",
@@ -75,3 +78,4 @@ wwwww
         }
     }
 });
+

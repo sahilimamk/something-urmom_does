@@ -64,8 +64,8 @@ function handleClientInput(p, keys, target, map, rows, cols) {
 
 function createBullet(startX, startY, dirX, dirY, ownerID){
         return {
-            width: 0.1,
-            height: 0.1,
+            width: 0.5,
+            height: 0.5,
             px: startX,
             py: startY,
             isbullet: true,
