@@ -13,6 +13,8 @@ const Theme = {
     }
 };
 
+
+
 const rows = 100;
 const cols = 100;
 const GRASS = 0;

@@ -52,7 +52,6 @@ for (let y = 0; y < rows; y++) {
 
     const keys = {};
 
-    let serverBullets = [];
 
 //create a patch of soil or water in the map like a cricle 
     function createPatch(cx, cy, radius, type) {
@@ -69,9 +68,23 @@ for (let y = 0; y < rows; y++) {
         }
     }
 
-    createPatch(10, 8, 4, WATER);  // Lake 1
-    createPatch(25, 5, 3, WATER);  // Lake 2
-    createPatch(5, 12, 3, SOIL);   // Soil Patch 1
+
+    for(let i= 0 ; i<20; i++){
+        let cx=Math.floor(Math.random()*100)+1;
+        let cy=Math.floor(Math.random()*100)+1;
+        let radius=Math.floor(Math.random()*10)+1;
+        if(i%2==0){
+            createPatch(cx,cy, radius, WATER);
+        }
+        else{
+            createPatch(cx,cy, radius, SOIL);
+        }
+        
+    }
+
+    // createPatch(10, 8, 4, WATER);  // Lake 1
+    // createPatch(25, 5, 3, WATER);  // Lake 2
+    // createPatch(5, 12, 3, SOIL);   // Soil Patch 1
    
     
 
@@ -83,12 +96,11 @@ function gameloop(){
     draw();
     requestAnimationFrame(gameloop);
 }
-
     console.log(keys);
 
 //websocket connection to connect to server
     const socket = new WebSocket("ws://localhost:3000");
-socket.addEventListener('message', (e) => {
+    socket.addEventListener('message', (e) => {
     const state = JSON.parse(e.data);
     
     if(state.type === "GAME_OVER"){
@@ -98,22 +110,20 @@ socket.addEventListener('message', (e) => {
     
     // rest of your existing code
 
-console.log("state.bullets:", state.bullets);
+    console.log("state.bullets:", state.bullets);
 
-        player1.px = state.player1.px;
-        player1.py = state.player1.py;
-        player2.px = state.player2.px;
-        player2.py = state.player2.py;
+    player1.px = state.player1.px;
+    player1.py = state.player1.py;
+    player2.px = state.player2.px;
+    player2.py = state.player2.py;
+    player1.score = state.player1.score;
+    player2.score = state.player2.score;
 
-
-        player1.score = state.player1.score;
-        player2.score = state.player2.score;
-
-   entities.length = 2; // keep player and player2, wipe old bullets
-for (const b of state.bullets) {
-    b.color = b.owner === "player1" ? Theme.colors.player1 : Theme.colors.player2;
-    entities.push(b);
-}
+    entities.length = 2; // keep player and player2, wipe old bullets
+    for (const b of state.bullets) {
+        b.color = b.owner === "player1" ? Theme.colors.player1 : Theme.colors.player2;
+        entities.push(b);
+    }
     });
     
     window.onload = () => {

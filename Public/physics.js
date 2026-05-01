@@ -8,7 +8,7 @@ function applyMovement(p, dirX, dirY, target, map, rows, cols) {
 
     let newX = p.px;
     let newY = p.py;
- 
+
 
     if (dirX !== 0 || dirY !== 0) {
         p.lastDirX = dirX;
@@ -34,9 +34,7 @@ function applyMovement(p, dirX, dirY, target, map, rows, cols) {
     // When map is null (server-side), skip tile/bounds checks
     let tileOk = true;
     if (map && rows != null && cols != null) {
-        tileOk = gridY >= 0 && gridY < rows &&
-                 gridX >= 0 && gridX < cols &&
-                 canMove(gridX, gridY, map);
+        tileOk = gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols && canMove(gridX, gridY, map);
     }
 
     if (tileOk && !checkAABB(ghost, target)) {
@@ -44,10 +42,9 @@ function applyMovement(p, dirX, dirY, target, map, rows, cols) {
         p.py = newY;
     }
 
+
     // to slow down the pushing of bullet and current cool down 
-    if (p.currentCdown > 0) {
-        p.currentCdown--;
-    }
+
 }
 
 // CLIENT ONLY — reads keyboard, calls shared function
@@ -64,14 +61,15 @@ function handleClientInput(p, keys, target, map, rows, cols) {
 
 function createBullet(startX, startY, dirX, dirY, ownerID){
         return {
-            width: 0.5,
-            height: 0.5,
+            width: 1,
+            height: 1,
             px: startX,
             py: startY,
             isbullet: true,
             speedX: 1.5 * dirX,
             speedY: 1.5 * dirY,
-            owner: ownerID
+            owner: ownerID,
+            life: 120
         };
 }
 
@@ -95,11 +93,16 @@ function updateBullets(bullets, player1, player2){
     
             crnent.px += crnent.speedX;
             crnent.py += crnent.speedY;
+
+            crnent.life --;
         
-        
+        if (crnent.life <= 0) {
+            crnent.dead = true;
+        }
+
         if (crnent.owner === "player1" && checkAABB(crnent, player2)) {
             player1.score++;       // Give Player 1 a point!
-            crnent.dead = true;   // Kill the bullet
+            crnent.dead = true;    // Kill the bullet
         } else if (crnent.owner === "player2" && checkAABB(crnent, player1)) {
             player2.score++;      // Give Player 2 a point!
             crnent.dead = true;   // Kill the bullet

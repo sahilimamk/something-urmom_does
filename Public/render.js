@@ -6,8 +6,11 @@ function resize(){
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     }
+
+
+
     
-    function draw() {
+function draw() {
         
         ctx.fillStyle = Theme.colors.background;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -66,23 +69,9 @@ function resize(){
                 Theme.sizes.tile
             );
         }
-if(serverBullets && serverBullets.length > 0){
 
-        for(let i = 0; i < serverBullets.length; i++){
-            let crnEnt = serverBullets[i];
 
-            ctx.fillStyle = "rgba(76, 234, 121, 0.47)";
-
-            ctx.fillRect(
-                crnEnt.px*Theme.sizes.tile - cameraX,
-                crnEnt.py*Theme.sizes.tile - cameraY,
-                Theme.sizes.tile,
-                Theme.sizes.tile
-            );
-        }
-}
-
-        ctx.fillStyle = "white"; // Or use Theme.colors.player1
+ctx.fillStyle = "white"; // Or use Theme.colors.player1
 ctx.font = "20px Arial";
 
 // Draw Player 1's score on the top left
@@ -91,8 +80,6 @@ ctx.fillText("P1 Score: " + player1.score, 20, 30);
 // Draw Player 2's score on the top right
 // (Assuming your canvas is something like 800px wide, adjust the X coordinate if needed)
 ctx.fillText("P2 Score: " + player2.score, 600, 30);
-
-console.log("bullets:", serverBullets); 
-    }
+}
 
     

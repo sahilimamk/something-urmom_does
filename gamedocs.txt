@@ -86,3 +86,20 @@ ARCHITECTURAL DECISIONS MADE:
   match history, leaderboard (microservices pattern)
 - Raw ws over Socket.io to avoid black-box abstractions
 - Inputs sent over wire (not state) for anti-cheat
+
+
+
+
+https://github.com/GitDevendra/Scaled_Chatting_Application_ {project to look for }
+
+
+
+
+QUESTION:
+  Right now your client directly sets
+      player.px = state.player1.px;
+  Why can this cause jittery movement, 
+  and what technique would you use to make movement smooth?
+
+  Answer:
+    

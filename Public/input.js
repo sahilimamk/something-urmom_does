@@ -11,7 +11,7 @@ window.addEventListener("keydown", (e) => {
 
 // opens a dual server for it to connect to get data from 
 // player packet and close the connection when it is over
-8
+
     if (gameKeys.includes(key)) {
 
         //it checks whether the game controls are of player1 keys and 

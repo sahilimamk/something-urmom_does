@@ -34,7 +34,20 @@ setInterval(() => {
                 winner: id
                 }));
             });
-        }
+            // Reset scores
+        gameState.player1.score = 0 ;
+        gameState.player2.score = 0 ;
+        
+        // Reset to spawn positions
+        gameState.player1.px = 2;
+        gameState.player1.py = 2;
+        gameState.player2.px = 5;
+        gameState.player2.py = 5;
+
+        // Clear all bullets out of the air
+        gameState.bullets = [] ; 
+    }
+        
         const p = gameState[id];
         const target = id === "player1" ? gameState.player2 : gameState.player1;
         
@@ -50,6 +63,7 @@ setInterval(() => {
             applyMovement(p, dirX, dirY, target, null, null, null);
             p.px = Math.max(0, Math.min(99, p.px));
             p.py = Math.max(0, Math.min(99, p.py));
+            
         }
     });
 
@@ -65,6 +79,8 @@ setInterval(() => {
 
 }, 16);
 
+
+
 // opens a dual server for it to connect to get data from 
 // player packet and close the connection when it is over
 wss.on('connection', (ws) => {
@@ -76,9 +92,13 @@ wss.on('connection', (ws) => {
             if(parsed.type === "INPUT" && (parsed.key === " " || parsed.key === "enter") && parsed.state === true){
                     console.log("SHOOT received", parsed);
 
+                const shooter = gameState[parsed.id];
+                const dX = shooter.lastDirX !== undefined ? shooter.lastDirX : 1;
+                const dY = shooter.lastDirY !== undefined ? shooter.lastDirY : 0;
+                
                 gameState.bullets.push(createBullet(
-                    gameState[parsed.id].px, gameState[parsed.id].py, 
-                    parsed.dirX, parsed.dirY, parsed.id));
+                    shooter.px, shooter.py, 
+                    dX, dY, parsed.id));
             }else{
                 activeKeys[parsed.id][parsed.key] = parsed.state;
             }
