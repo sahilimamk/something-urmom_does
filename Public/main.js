@@ -69,22 +69,10 @@ for (let y = 0; y < rows; y++) {
     }
 
 
-    for(let i= 0 ; i<20; i++){
-        let cx=Math.floor(Math.random()*100)+1;
-        let cy=Math.floor(Math.random()*100)+1;
-        let radius=Math.floor(Math.random()*10)+1;
-        if(i%2==0){
-            createPatch(cx,cy, radius, WATER);
-        }
-        else{
-            createPatch(cx,cy, radius, SOIL);
-        }
-        
-    }
 
-    // createPatch(10, 8, 4, WATER);  // Lake 1
-    // createPatch(25, 5, 3, WATER);  // Lake 2
-    // createPatch(5, 12, 3, SOIL);   // Soil Patch 1
+    createPatch(10, 8, 4, WATER);  // Lake 1
+    createPatch(25, 5, 3, WATER);  // Lake 2
+    createPatch(5, 12, 3, SOIL);   // Soil Patch 1
    
     
 
