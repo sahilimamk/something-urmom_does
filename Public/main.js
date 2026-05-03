@@ -89,7 +89,7 @@ function gameloop() {
 console.log(keys);
 
 //websocket connection to connect to server
-const socket = new WebSocket("ws://localhost:3000/"); 
+const socket = new WebSocket("wss://game-multi-nf73.onrender.com/");
 socket.addEventListener('message', (e) => {
     const state = JSON.parse(e.data);
 
