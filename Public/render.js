@@ -3,8 +3,8 @@ const ctx = canvas.getContext("2d");
 
 
 function resize(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = 800;
+    canvas.height = 600;
     }
 
 
@@ -18,6 +18,12 @@ function draw() {
 //calculates the position of camera respective to the map
         cameraX = player1.px * Theme.sizes.tile - canvas.width / 2;
         cameraY = player1.py * Theme.sizes.tile - canvas.height / 2;
+
+        // Clamp camera so grass always fills the screen
+        const mapW = cols * Theme.sizes.tile;
+        const mapH = rows * Theme.sizes.tile;
+        cameraX = Math.max(0, Math.min(cameraX, mapW - canvas.width));
+        cameraY = Math.max(0, Math.min(cameraY, mapH - canvas.height));
 
 //it helps calculate the startcols and endcols for the map to draw what we view only
         let startcols = Math.max(0,Math.floor(cameraX/Theme.sizes.tile));

@@ -90,7 +90,7 @@ wss.on('connection', (ws) => {
         try {
             const parsed = JSON.parse(packet.toString());
             if(parsed.type === "INPUT" && (parsed.key === " " || parsed.key === "enter") && parsed.state === true){
-                    console.log("SHOOT received", parsed);
+                    // console.log("SHOOT received", parsed);
 
                 const shooter = gameState[parsed.id];
                 const dX = shooter.lastDirX !== undefined ? shooter.lastDirX : 1;

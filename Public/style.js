@@ -3,7 +3,7 @@ const Theme = {
         tile: 58
     },
     colors: {
-        background: "#222", 
+        background: "#e3f2fd", 
         grass: "#4CAF50",
         water: "#2196F3",
         soil: "#8B4513",
