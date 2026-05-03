@@ -15,7 +15,7 @@ for (let y = 0; y < rows; y++) {
             shoot: " "},
         width:1,
         height: 1,
-        lastDirX: 1,
+        lastDirX: 0,
         lastDirY:0, 
         id: "player1",
         px:2,
