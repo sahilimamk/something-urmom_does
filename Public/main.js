@@ -108,7 +108,7 @@ const socket = new WebSocket("wss://game-multi-nf73.onrender.com");    socket.ad
 
     entities.length = 2; // keep player and player2, wipe old bullets
     for (const b of state.bullets) {
-        b.color = b.owner === "player1" ? Theme.colors.player1 : Theme.colors.player2;
+        b.color = b.owner === "player1" ? Theme.colors.bullet : Theme.colors.bullet;
         entities.push(b);
     }
     });
